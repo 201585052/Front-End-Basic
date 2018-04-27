@@ -1,0 +1,5 @@
+1、git init 初始化一个仓库
+2、git add .(sth) 添加文件
+3、git commit -m "描述"
+4、git status 查看状态
+
