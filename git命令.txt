@@ -2,4 +2,9 @@
 2、git add .(sth) 添加文件
 3、git commit -m "描述"
 4、git status 查看状态
-
+5、git log 查看历史状态
+6、git reset --hard commit-id 版本回滚
+7、git reflog 查看命令历史，方便“回到未来”
+8、git checkout --文件名 撤销修改到最近一次状态，比如撤销对工作区的修改
+9、git reset Head 文件名 撤销对暂存区的修改放回到工作区
+10、git rm 文件名 版本库内文件删除+rm 文件名 工作区删除（后需git commit 一下），工作区误删可用git checkout 撤销
