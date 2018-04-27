@@ -8,3 +8,7 @@
 8、git checkout --文件名 撤销修改到最近一次状态，比如撤销对工作区的修改
 9、git reset Head 文件名 撤销对暂存区的修改放回到工作区
 10、git rm 文件名 版本库内文件删除+rm 文件名 工作区删除（后需git commit 一下），工作区误删可用git checkout 撤销
+11、git remote add origin http/ssh  //origin是默认名，后面表示用http地址和ssh地址都可以
+12、git push -u origin master 发射到github上-u参数还会将本地的master分支与远程的master分支关联，方便日后修改
+
+以后只要 git push origin master就可以同步修改啦
