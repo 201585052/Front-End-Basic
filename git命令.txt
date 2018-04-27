@@ -12,3 +12,11 @@
 12、git push -u origin master 发射到github上-u参数还会将本地的master分支与远程的master分支关联，方便日后修改
 
 以后只要 git push origin master就可以同步修改啦
+
+-----------------------------以上是master，以下是分支-------------------------------------
+1、git branch 查看分支
+2、git branch <name> 创建分支
+3、git checkout <name> 切换分支
+4、git checkout -b <name> 创建并切换分支
+5、git merge <name> 合并某分支到当前分支
+6、git branch -d <name> 删除分支
