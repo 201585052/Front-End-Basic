@@ -11,6 +11,8 @@
 11、git remote add origin http/ssh  //origin是默认名，后面表示用http地址和ssh地址都可以
 12、git push -u origin master 发射到github上-u参数还会将本地的master分支与远程的master分支关联，方便日后修改
 
+补充：
+1、git log --graph
 以后只要 git push origin master就可以同步修改啦
 
 -----------------------------以上是master，以下是分支-------------------------------------
