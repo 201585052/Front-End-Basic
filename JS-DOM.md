@@ -1,5 +1,8 @@
 # Js-DOM艺术笔记
 
+__前言:__ 
+
+我想我们纠结DOM的操作问题，一个比较重要的点就是DOM在性能上的代价还是很昂贵的把
 * BOM与DOM
 ```
 BOM：浏览器对象模型，Browser Object Model。window.open,window.blur等；
@@ -133,4 +136,221 @@ function doSomething() {
         alert(request.responseText);
     }
 }
+```
+接下来补充两个DOM操作CSS的实例
+>书上好实例1:DOM操作表格实现隔行上色
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        function stripeTables() {
+            if(!document.getElementsByTagName) return false;
+            var tables = document.getElementsByTagName('table');
+            for(var i=0;i<tables.length;i++) {
+                var odd = false;
+                var rows = tables[i].getElementsByTagName('tr');
+                for(var j=0;j<rows.length;j++) {
+                    if(odd == true) {
+                        rows[j].style.backgroundColor = "#ffc";//addClass(rows[j],"odd");
+                        odd = false;
+                    } else {
+                        odd = true;
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <table>
+        <caption>Itinerary</caption>
+        <thead>
+            <tr>
+                <th>when</th>
+                <th>where</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>June 9th</td>
+                <td>Portland,<abbr title="Oregon">oR</abbr></td>
+            </tr>
+            <tr>
+                <td>June 10th</td>
+                <td>Seattle,<abbr title="Washington">WA</abbr></td>
+            </tr>
+            <tr>
+                <td>June 12th</td>
+                <td>Sacramento,<abbr title="California">CA</abbr></td>
+            </tr>
+        </tbody>
+    </table>
+    <button id="btn" onclick = "stripeTables()">change</button>
+</body>
+</html>
+
+```
+
+>书上好实例2:DOM改变相邻第一个样式
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+      function getNextElement(node) {
+        if(node.nodeType == 1 ) {
+          return node;
+        }
+        if(node.nextSibling) {
+          return getNextElement(node.nextSibling);
+        }
+        return null;
+      }
+      function styleHeaderSiblings() {
+          if(!document.getElementsByTagName) return false;
+          var headers = document.getElementsByTagName('h1');
+          for(var i=0;i<headers.length;i++) {
+            var elem = getNextElement(headers[i].nextSibling);
+            elem.style.fontWeight = "bold";
+            elem.style.fontSize = "1.2em";
+          }
+      }
+    </script>
+</head>
+
+<body>
+        <button id="btn" onclick="styleHeaderSiblings()">change</button>
+        <h1>Hold the front page</h1>
+        <p>This first paragraph leads you in</p>
+        <p>now you get the nitty</p>
+        <p>the most important information</p>
+        <h1>Extral! Extral!</h1>
+        <p>Further developments are unfolding</p>
+        <p>you can read all about it</p>
+</body>
+</html>
+```
+>书上好实例3:DOM完成动画效果（感觉用CSS3可以很轻松地完成）
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #slideshow {
+            width:100px;
+            height:100px;
+            position: relative;
+            /* overflow: hidden; */
+        }
+        #preview {
+            position: absolute;
+        }
+    </style>
+    <script>
+        function insertAfter(newElement,targetElement) {
+            var parent = targetElement.parentNode;
+            if(parent.lastChild == targetElement) {
+                parent.appendChild(newElement);
+            } else {
+                parent.insertBefore(newElement,targetElement.nextSibling);
+            }
+        }
+        function moveElement(elementID, final_x, final_y, interval) {
+            if(!document.getElementById) return false;
+            if(!document.getElementById(elementID)) return false;
+            var elem = document.getElementById(elementID);
+            if(elem.movement) {
+                clearTimeout(elem.movement);
+            }
+            if(!elem.style.left) {
+                elem.style.left = "0px";
+            }
+            if(!elem.style.top) {
+                elem.style.top = "0px";
+            }
+            var xpos = parseInt(elem.style.left);
+            var ypos = parseInt(elem.style.top);
+            if(xpos == final_x && ypos ==final_y) {
+                return true;
+            }
+            if(xpos < final_x) {
+                var dist = Math.ceil((final_x - xpos)/10);
+                xpos = xpos + dist;
+            }
+            if(xpos > final_x) {
+                var dist = Math.ceil((xpos - final_x)/10);
+                xpos = xpos - dist;
+            }
+            if(ypos < final_y) {
+                var dist = Math.ceil((final_y - ypos)/10);
+                ypos = ypos + dist;
+            }
+            if(ypos >final_y) {
+                var dist = Math.ceil((ypos - final_y)/10);
+                ypos = ypos - dist;
+            }
+            elem.style.left = xpos + "px";
+            elem.style.right = ypos + "px";
+            elem.movement = setTimeout(moveElement(elementID,final_x,final_y,interval),interval);
+        }
+        function prepareSlideshow() {
+            if(!document.getElementsByTagName) return false;
+            if(!document.getElementById) return false;
+            if(!document.getElementById('linklist')) return false;
+            var slideshow = document.createElement('div');
+            slideshow.setAttribute("id","slideshow");
+            var preview = document.createElement("img");
+            preview.setAttribute("src","1.jpeg");
+            preview.setAttribute("alt","building blocks of web design");
+            preview.setAttribute("id","preview");
+            slideshow.appendChild(preview);
+            var list = document.getElementById("linklist");
+            insertAfter(slideshow,list);
+            var links = list.getElementsByTagName('a');
+            links[0].onmouseover = function() {
+                moveElement("preview",100,0,10);
+            }
+            links[1].onmouseover = function() {
+                moveElement("preview",200,0,10);
+            }
+            links[2].onmouseover = function() {
+                moveElement("preview",300,0,10);
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+<h1>Web Design</h1>
+<p>These are the things you should know</p>
+<ol id="linklist">
+    <li>
+        <a href="structure.html">Structure</a>
+    </li>
+    <li>
+        <a href="presentation.html">Presentation</a>
+    </li>
+    <li>
+        <a href="#">Behavior</a>
+    </li>
+</ol>
+<button onclick="prepareSlideshow()">change</button>
+</body>
+
+</html>
 ```
