@@ -23,8 +23,15 @@
 5、git merge <name> 合并某分支到当前分支
 6、git branch -d <name> 删除分支
 
+-----------------------------以下是实际使用时记录的方法和经验------------------------------
 其他：
 1、git gc 垃圾回收，压缩本地.git文件夹（上次使用的时候出现了问题。。）
 2、git clone git://xxoo --depth 1 只克隆上次commit的内容
 
-工作分区：
+工作分区(个人只是改动master)：
+1、git clone +https/ssh
+2、到clone下的目录下git init 一下
+3、改动后 git staus查看一下，然后git add .
+4、git commit -m "sth"
+5、git push 部署到服务器上
+6、以后再更新项目时 直接git pull 就好了 因为git的通道通过git clone已经建立
