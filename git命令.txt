@@ -26,3 +26,5 @@
 其他：
 1、git gc 垃圾回收，压缩本地.git文件夹（上次使用的时候出现了问题。。）
 2、git clone git://xxoo --depth 1 只克隆上次commit的内容
+
+工作分区：
