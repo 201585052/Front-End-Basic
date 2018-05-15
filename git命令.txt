@@ -34,4 +34,3 @@
 3、改动后 git staus查看一下，然后git add .
 4、git commit -m "sth"
 5、git push 部署到服务器上
-6、以后再更新项目时 直接git pull 就好了 因为git的通道通过git clone已经建立
