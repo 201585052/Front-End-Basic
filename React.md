@@ -371,3 +371,12 @@ addTitle(title) {
 * 其他：
 
 React.createElement相对于h增加了对自定义组件构造函数的考虑：解析过程：初始化实例后render
+
+____
+
+## 深入React心得
+回头好好总结下，不要让知识点乱七八糟的
+
+* react 生命周期
+
+
