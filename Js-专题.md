@@ -5,6 +5,15 @@
 
 ------------
 ## es5
+
+#### js数据类型（堆栈，内存图，详细判断方法）
+
+```txt
+    栈：原始数据类型undefined，Null，Boolean，Number，String
+    堆：引用数据类型对象，数组，函数
+
+```
+#### 原型与原型链
 #### 面向对象与继承
 ```
 注：面向对象是一项非常有用的模式，js在初生时并没有考虑太多这方面的问题，后来无数js大牛创造出了这种模式，感
@@ -255,6 +264,101 @@ console.log(dosomething(addd,1,2));
 ```
 #### 作用域链的理解
 #### 变量提升
+>在定义或定义赋值之前引用，会只提变量，为undefined
+
+    console.log(foo); //undefined
+    var foo = 2;
+
+>举个详细的例子
+
+    var tmp = new Date();
+    function f() {
+    console.log(tmp);
+        if (false) {
+            var tmp = 'hello world';
+        }
+    }
+    f(); // undefined
+    这段代码很经典，出现情况是定义赋值前引用，如果我们把后面的赋值去掉，根据前面的规则，结果还是undefined，如果只保留tmp = 'hello world'那么结果会正常输出
+>函数同样存在变量提升？
+
+    function getValue() {
+        return 'c';
+    }
+    function functions(flag) {
+        if (flag) {
+            function getValue() { return 'a'; }
+        } else {
+            function getValue() { console.log(1);return 'b'; }
+        }
+        return getValue();
+    }
+    console.log(functions(true));
+    这里本以为这一段代码最后总是会返回b，牛客上的题也是这么设计的，但后来的node环境可能做了些修正，这里其实会返回a的。。。,而且没输出1说明第二个函数解析都没解析，所以个人对函数的理解是
+    ->1、函数解析本身并不存在“变量提升”
+    
+    紧接着第二个测试
+    function doSth(func,a,b){
+        function func(a,b) {
+            return a-b;
+        }
+        return func(a,b);
+    }
+    function func(a,b) {
+        return a+b;
+    }
+    console.log(doSth(func,1,2));
+
+    ->2、函数的调用沿作用域链查找
+
+    紧接着看了网上大牛的3个测试
+
+    (function(){
+        
+    function a(){};
+        var a;
+        console.log(typeof a); //function
+    })();
+    (function(){
+        console.log(typeof a);//function
+        function a(){};
+        var a = 1;
+        
+    })();
+    (function(){
+        function a(){};
+        var a = 1;
+        console.log(typeof(a)); //number
+    })();
+
+    ->3、js先解析再执行(会被覆盖)
+>词法分析一个
+
+    function a(){
+    var b = 'a';
+    function b(){
+       console.log('b')
+    }
+    
+    console.log(b)
+    }
+    a()
+    //解析时
+    function a(){
+        var b = 'a';
+        b = function b(){console.log('b')};
+        console.log(b);
+    }
+    //执行时
+    function a(){
+        b = function b(){console.log('b')};
+        var b = 'a';
+        console.log(b);
+    }
+    a();
+>总结：
+
+    ES5只有全局作用域和函数作用域，没有块级作用域，因此es6新增了let，来引入块级作用域
 #### 事件队列
 >我们用常见的写一个定时器来分析这个问题
 ```js
@@ -380,7 +484,7 @@ arr.forEach(function(index,value,arr){
 </body>
 </html>
 ```
-
+#### 不同浏览器及浏览器中的事件
 #### 事件委托
 >将一个父元素下的许多子元素的点击事件附到父元素上
 ```HTML
@@ -478,6 +582,8 @@ b2.init("b2");
 b1.speak();
 b2.speak();
 ```
+
+#### ajax原生与jquery创建过程，如何缓存优化
 
 
 ## es6

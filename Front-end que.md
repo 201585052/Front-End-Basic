@@ -7,10 +7,10 @@
 -----------
 <!-- TOC -->
 
-- [Web 前端开发面试题](#web-前端开发面试题)
+<!-- - [Web 前端开发面试题](#web-前端开发面试题)
     - [HTML](#html)
     - [浏览器内核，渲染，兼容性](#浏览器内核渲染兼容性)
-    - [计网及HTTP](#计网及http)
+    - [计网及HTTP](#计网及http) -->
 
 <!-- /TOC -->
 ## HTML
@@ -53,6 +53,52 @@ xss与rsxf
 * 简述DOM与BOM的区别
 * 事件冒泡与事件捕获，事件委托
 
+
+## javascript
+
+* js三大对象
+
+```txt
+    1、本地对象（可通过new创建实例）：包含：Object、Array、Date、RegExp、Function、Boolean、Number、String等。
+    2、内置对象（本身就是实例化对象）:包含：Global和Math
+    3、宿主对象（包含宿主提供，自定义类对象）：所有的DOM对象和BOM对象都属于宿主对象
+``` 
+
+* js基本规范
+
+```txt
+    1、减少全局污染
+    2、变量名自行提升
+    3、for循环中保存变量
+    4、用'==='代替'=='
+    5、用花括号
+    6、命名规范
+    7、写注释
+    8、不要在同一行内声明多个变量
+    9、switch语句中必须带有default分支
+```
+
+* 对json的了解
+
+*js脚本如何加载，同步异步，defer和async
+
+* 那些操作会造成内存泄漏？
+
+* 检测浏览器版本版本有哪些方式？
+
+* Polyfill及Polyfill方案?
+
+* Webpack热更新实现原理(同理这只是个模版）?
+
+* es6 如何编译成es5
+```txt
+    1. Webpack编译期，为需要热更新的 entry 注入热更新代码(EventSource通信)
+  2. 页面首次打开后，服务端与客户端通过 EventSource 建立通信渠道，把下一次的 hash 返回前端
+  3. 客户端获取到hash，这个hash将作为下一次请求服务端 hot-update.js 和 hot-update.json的hash
+  4. 修改页面代码后，Webpack 监听到文件修改后，开始编译，编译完成后，发送 build 消息给客户端
+  5. 客户端获取到hash，成功后客户端构造hot-update.js script链接，然后插入主文档
+  6. hot-update.js 插入成功后，执行hotAPI 的 createRecord 和 reload方法，获取到 Vue 组件的 render方法，重新 render 组件， 继而实现 UI 无刷新更新。
+```
 ## 计网及HTTP
 
 * 如何减少HTTP请求数

@@ -7,6 +7,9 @@ jQuery的话会问一些超重点函数的使用区别和一些重要的函数�
 #### jQuery4种选择器
 #### bind与on的区别
 #### 实现extend源码功能
+#### jQuery源码总体思路
+#### jQuery.fn中的重点方法（如init方法，bind(),live(),delegate(),on()，fire，的具体实现）
+#### jQuery中的重点操作（json转换）
 ```js
 //从某网站学的，忘了orz
 //默认情况浅拷贝

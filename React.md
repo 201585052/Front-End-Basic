@@ -379,4 +379,18 @@ ____
 
 * react 生命周期
 
+* React 使用场景
 
+* 实现组件有哪些方式
+
+* shouldComponentUpdate函数有什么作用？
+
+* 当组件的setState函数被调用之后，发生了什么？
+
+* 为什么循环产生的组件中要利用上key这个特殊的prop？
+
+* React-router 路由的实现原理？
+
+* 受控组件(Controlled Component)与非受控组件(Uncontrolled Component)的区别
+
+* refs 是什么?

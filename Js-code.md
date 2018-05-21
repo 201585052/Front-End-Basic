@@ -1,4 +1,4 @@
-## JS 小题狂练
+# JS Code
 <font color=#0099ff size=5 face="黑体">前言：</font>
 
 Js的数据结构和算法描述其实挺重要的，虽然没有C++这种强类型语言那么有优势，但是有空看看吧，然后这里附上各种面试考手写的小题吧
@@ -118,8 +118,15 @@ function extend(deep, target, obj) {
 //console.log(extend(false,object1,object2));
 //console.log(extend(true, object1, object2));
 ```
-#### 实现一个英文字段，每个单词首字母大写
-#### 一次笔试的题求连通图的（不会）
+--------
+## js小题狂练
+> 实现一个英文字段，每个单词首字母大写
+
+> 如何实现数组的随机排序
+
+> 使用JS实现获取文件扩展名？
+
+> 一次笔试的题求连通图的（不会）
 ```js
 var [n,m] = read_line().split(" ");
 function Node(num){
@@ -242,7 +249,7 @@ for(i = 0; i < Q; i++) {
 }
 print(result)
 ```
-#### 实现数字字符格式化输出，从最后起每三个数字加个逗号
+>实现数字字符格式化输出，从最后起每三个数字加个逗号
 ```js
 //感觉自己写得更好点对于正则考虑了小数，确实是有些麻烦
 function formalize(x){
@@ -268,7 +275,7 @@ function formalize(x){
 formalize(12345);
 formalize(1234.123);
 ```
-#### 手写快速排序
+>手写快速排序
 ```js
 function quicksort(arr)
 {
@@ -293,7 +300,7 @@ var res=quicksort(arr);
 console.log(res);
 
 ```
-#### 手写ajax传值过程
+>手写ajax传值过程
 ```js
 这里是用es6的promise封装版的：
 
@@ -318,7 +325,8 @@ function getJson(url){
 }
 getJson("www.liao.com").then((val)=>console.log(val));
 ```
-#### 手写实现跨域
+> 手写实现跨域
+
 #### 正则表达式
 >用户名正则，4到16位（字母，数字，下划线，减号）
     
