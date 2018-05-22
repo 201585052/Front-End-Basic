@@ -1,15 +1,25 @@
 # jQuery 系列
+
 <font color=#0099ff size=5 face="黑体">前言：</font>
 
 jQuery的话会问一些超重点函数的使用区别和一些重要的函数的源码问题，同时也会考一些插件的应用
 
 -----------
-#### jQuery4种选择器
-#### bind与on的区别
-#### 实现extend源码功能
-#### jQuery源码总体思路
-#### jQuery.fn中的重点方法（如init方法，bind(),live(),delegate(),on()，fire，的具体实现）
-#### jQuery中的重点操作（json转换）
+
+## jQuery4种选择器
+
+## bind与on的区别
+
+## jQuery源码总体思路
+
+## jQuery.fn中的重点方法（如init方法，bind(),live(),delegate(),on()，fire，的具体实现）
+
+## jQuery中的重点操作（json转换）
+
+## jQuery 实现ajax
+
+## 实现extend源码功能
+
 ```js
 //从某网站学的，忘了orz
 //默认情况浅拷贝
@@ -75,8 +85,11 @@ function extend(deep, target, obj) {
 //console.log(extend(false,object1,object2));
 //console.log(extend(true, object1, object2));
 ```
-#### animate动画小试
+
+## animate动画小试
+
 >jQuery的一系列特效和API可以参考[官网](https://www.jquery123.com/)
+
 ```HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -126,8 +139,11 @@ function extend(deep, target, obj) {
 </body>
 </html>
 ```
-#### jQuery 自制插件
+
+## jQuery 自制插件
+
 >jQuery插件封装对象
+
 ```HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -163,7 +179,9 @@ function extend(deep, target, obj) {
 </body>
 </html>
 ```
+
 >jQuery封装全局函数
+
 ```HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -200,7 +218,9 @@ function extend(deep, target, obj) {
 </body>
 </html>
 ```
+
 >jQuery自制选择器插件
+
 ```HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -244,8 +264,10 @@ function extend(deep, target, obj) {
 </html>
 ```
 
-#### jQuery常见场景需求
+## jQuery常见场景需求
+
 >jQuery建表（与React虚拟DOM做对比的，模拟DOM修改时的变化）
+
 ````HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -294,7 +316,7 @@ function extend(deep, target, obj) {
             //re-render
             render(data);
         });
-        render(data);    
+        render(data);
     </script>
 </body>
 </html>

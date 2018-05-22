@@ -1,27 +1,62 @@
 # Js专题
+
 <font color=#0099ff size=5 face="黑体">前言：</font>
 
 这一部分就是针对各种Js重点概念列出的分析和专题
 
 ------------
+
 ## es5
 
-#### js数据类型（堆栈，内存图，详细判断方法）
+### js数据类型
 
 ```txt
-    栈：原始数据类型undefined，Null，Boolean，Number，String
-    堆：引用数据类型对象，数组，函数
+    栈：原始数据类型undefined，Null，Boolean，Number(含NaN)，String(字符串不可修改))
+    堆：引用数据类型对象，数组，函数，Date
+```
 
-```
-#### 原型与原型链
-#### 面向对象与继承
-```
+> typeof简单判定（无法区分null，数组和对象）
+
+    typeof 2 //number
+    typeof '222' //string
+    typeof true //boolean
+    typeof (function{}) //function
+    typeof undefined //undifined
+    typeof null //object
+    typeof {}   //object
+    typeof [] //object
+
+>原生原型拓展函数判定
+
+    var gettype = Object.prototype.toString
+    gettype.call('aaaa')        //[object String]
+
+    gettype.call(2222)          //[object Number]
+
+    gettype.call(true)          //[object Boolean]
+
+    gettype.call(undefined)     //[object Undefined]
+
+    gettype.call(null)          //[object Null]
+
+    gettype.call({})            //[object Object]
+    gettype.call([])            //[object Array]
+    gettype.call(function(){})  //[object Function]
+
+### 原型与原型链
+
+### 面向对象与继承
+
+```txt
 注：面向对象是一项非常有用的模式，js在初生时并没有考虑太多这方面的问题，后来无数js大牛创造出了这种模式，感
 觉js创建对象的方法也有很多，工厂模式，原型模式，构造函数模式等等。。。。各大教科书高程什么的讲得很全，
 个人筛选出了可能比较好的两种模式，毕竟没法记住所有的方法。。
 ```
+
 * 创建对象
+
 >法一：组合使用构造函数模式和原型模式
+
 ```js
 function Person(name,sex,height){
     this.name = name;
@@ -40,6 +75,7 @@ Person.prototype = {
 ```
 
 >法二：稳妥构造函数（不是寄生式构造，寄生式构造不能用instanceof确定对象类型，不建议使用寄生式构造)
+
 ```js
 function Person(name,sex,height){
     var o=new Object();
@@ -64,6 +100,7 @@ function Person(name,sex,height){
 ```
 
 >完整的带继承的测试代码
+
 ```js
 function Person(name,sex,height){
     this.name = name;
@@ -136,7 +173,9 @@ wyp.fly();
 // 程上所写的把构造函数借用和原型链操作分开，而是做了个封装觉得这样的风格最好吧～，虽然只是个寄生式
 // 继承orz
 ```
+
 * 感觉必须要知道的组合继承
+
 ```js
 function Person(name,height){
     this.name = name;
@@ -158,20 +197,27 @@ hh.say();
 console.log(hh.friends);
 
 ```
+
 #### 对闭包的理解及常见应用场景
+
 > 闭包的三个特点
-```
+
+```txt
 1、函数嵌套函数
 2、函数内部可以引用外部的参数和变量
 3、参数和变量不会被垃圾回收机制回收
 ```
+
 >闭包的缺点
-```
+
+```txt
 1、会造成内存泄漏
 2、在函数中创建函数是不明智，闭包对脚本性能有负面影响，包括处理速度和内存消耗
 ```
+
 以下举几个闭包典型例子～
 >闭包应用场景1:保存变量
+
 ```js
 先看一段代码：
 function tell(){
@@ -217,7 +263,9 @@ var result = count();
 console.log(result[0]());
 console.log(result[5]());
 ```
+
 >闭包应用场景2:函数柯里化
+
 ```js
 function addsome(x){
     return function(y){
@@ -230,7 +278,9 @@ console.log(add5(1));
 console.log(add10(1));
 输出6和11
 ```
+
 >闭包应用场景3:实现变量的私有化和公有化（用那个经典的立即执行函数当然是可以的）
+
 ```js
 function create_timer(){
     var x=0;
@@ -244,8 +294,10 @@ var said = create_timer();
 for(var i=0;i<10;i++)
     said.say();
 ```
+
 >闭包应用场景4:闭包应用场景4:超多的回调,像sort，map，filter，reduce他们就是不错的例子,正则里的replace附带函数,
 差不多回调的最简含义如下
+
 ```js
 function dosomething(callback,x,y){
     return callback(x,y);
@@ -255,15 +307,20 @@ function addd(x,y){
 }
 console.log(dosomething(addd,1,2));
 ```
+
 >闭包应用场景5:jQuery插件书写中，避免在插件内部使用$作为jQuery对象，而使用
 完整的jQuery来表示，可以用闭包来回避这个问题
+
 ```js
 ;(function($){
     //sth
 })(jQuery);
 ```
+
 #### 作用域链的理解
+
 #### 变量提升
+
 >在定义或定义赋值之前引用，会只提变量，为undefined
 
     console.log(foo); //undefined
@@ -296,7 +353,6 @@ console.log(dosomething(addd,1,2));
     console.log(functions(true));
     这里本以为这一段代码最后总是会返回b，牛客上的题也是这么设计的，但后来的node环境可能做了些修正，这里其实会返回a的。。。,而且没输出1说明第二个函数解析都没解析，所以个人对函数的理解是
     ->1、函数解析本身并不存在“变量提升”
-    
     紧接着第二个测试
     function doSth(func,a,b){
         function func(a,b) {
@@ -314,7 +370,6 @@ console.log(dosomething(addd,1,2));
     紧接着看了网上大牛的3个测试
 
     (function(){
-        
     function a(){};
         var a;
         console.log(typeof a); //function
@@ -323,7 +378,6 @@ console.log(dosomething(addd,1,2));
         console.log(typeof a);//function
         function a(){};
         var a = 1;
-        
     })();
     (function(){
         function a(){};
@@ -335,12 +389,11 @@ console.log(dosomething(addd,1,2));
 >词法分析一个
 
     function a(){
-    var b = 'a';
-    function b(){
-       console.log('b')
-    }
-    
-    console.log(b)
+        var b = 'a';
+        function b(){
+            console.log('b')
+        }
+        console.log(b)
     }
     a()
     //解析时
@@ -359,8 +412,11 @@ console.log(dosomething(addd,1,2));
 >总结：
 
     ES5只有全局作用域和函数作用域，没有块级作用域，因此es6新增了let，来引入块级作用域
-#### 事件队列
+
+### 事件队列
+
 >我们用常见的写一个定时器来分析这个问题
+
 ```js
 //定时器
 function timer(period){
@@ -384,7 +440,7 @@ function timer(time){
     if(time==50)
     {
         return clearTimeout(t);
-    }      
+    }
     t=setTimeout(()=>timer(time+1),1000);
 }
 timer(1);
@@ -425,8 +481,10 @@ console.log(3);
 // setTimeout是本轮事件结束下轮事件开始时运行，promise是本轮事件结束时运行，也就是说就算是
 // then也是在setTimeout之前的
 ```
-#### 异步与回调
+
+### 异步与回调
 >异步防止阻塞 [参考](https://www.cnblogs.com/dong-xu/p/7000163.html)
+
 ```js
 //举一个同步遍历打印数组和异步回调打印数组的例子～
 var arr = new Array(200);
@@ -449,7 +507,9 @@ arr.forEach(function(index,value,arr){
     console.log(value);
 });
 ```
+
 >页面上回调使用实例
+
 ```HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -484,9 +544,13 @@ arr.forEach(function(index,value,arr){
 </body>
 </html>
 ```
-#### 不同浏览器及浏览器中的事件
-#### 事件委托
+
+### 不同浏览器及浏览器中的事件
+
+### 事件委托
+
 >将一个父元素下的许多子元素的点击事件附到父元素上
+
 ```HTML
 <!DOCTYPE html>
 <html>
@@ -519,13 +583,14 @@ arr.forEach(function(index,value,arr){
             if(tar.nodeName.toLowerCase()=='li')
                 alert("i'm liao"+tar.index);
         });
-        
     </script>
 </body>
 
 </html>
 ```
-#### 函数节流（防抖）
+
+### 函数节流（防抖）
+
 >有些像resize等函数或者input输入判断这种可能导致浏览器少时间多数计算，为了减少计算时间成本，隔一段时间计算一次，以下是滚动示例
 
 ```js
@@ -539,9 +604,13 @@ document.getElementById('ww').onscroll = function(){
     },1000);
 }
 ```
-#### 原型与对象关联
+
+### 原型与对象关联
+
 * 你不知道的JS中提到的对象关联风格可以大大减少原型风格原型链上的复杂性
+
 >原型风格
+
 ```js
 function Foo(who){
     this.me=who;
@@ -561,7 +630,9 @@ var b2=new Bar("b2");
 b1.speak();
 b2.speak();
 ```
+
 >对象关联风格
+
 ```js
 Foo={
     init: function(who){
@@ -583,15 +654,20 @@ b1.speak();
 b2.speak();
 ```
 
-#### ajax原生与jquery创建过程，如何缓存优化
-
+### ajax原生与jquery创建过程，如何缓存优化
 
 ## es6
-#### es6的新特性
-#### 箭头函数的理解
-#### 解析赋值
-#### promise专题
+
+### es6的新特性
+
+### 箭头函数的理解
+
+### 解析赋值
+
+### promise专题
+
 >race与all 小尝试
+
 ```js
 // var p1=Promise.resolve(43);
 // var p2=Promise.resolve("hello liao");

@@ -1,9 +1,13 @@
 # React 专题
+
 <font color=#0099ff size=5 face="黑体">前言：</font>
 
 React和Vue作为近几年前端大火面向未来的框架，基本属于必考，所以要学习一下啊
+
 * snabbdom体验虚拟dom与diff算法
+
 >snabbdom 基本使用，控制台查看更新部分
+
 ```HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +62,9 @@ React和Vue作为近几年前端大火面向未来的框架，基本属于必考
 
 </html>
 ```
+
 >snabbdom 与jQuery效果对比（复杂建表）
+
 ```HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -144,13 +150,14 @@ React和Vue作为近几年前端大火面向未来的框架，基本属于必考
                 data[2].address = '深圳';
                 render(data);
         })
-        
     </script>
 </body>
 
 </html>
 ```
+
 >patch初次渲染示意
+
 ```js
 //将vnode添加到container中，也就是转换vnode为真实dom元素过程
 // vdom:
@@ -200,7 +207,9 @@ function createElement(vnode){
     return elem;
 }
 ```
+
 >patch再次渲染示意
+
 ```js
 vdom:
 // {
@@ -259,8 +268,11 @@ function replaceNode(vnode,newVode) {
     var newelem = createElement(newVode);
 }
 ```
+
 * React的生命周期
+
 * React的diff算法和虚拟Dom
+
 >什么是diff算法
 
     就是一个比较不同的算法早在linux就有，在线也有，显示两个文本文件的差异
@@ -276,13 +288,8 @@ function replaceNode(vnode,newVode) {
     虚拟DOM，用js来模拟dom结构；将dom对比操作放在js层，提高效率
 >
 
-
-
-
-
-
-
 * React和Vue的异同和特点
+
 >不同点
 
     两者的本质区别：vue本质是MVVM框架，由MVC框架形成（React 可强行双向数据绑定）
@@ -305,18 +312,17 @@ function replaceNode(vnode,newVode) {
     两点：封装与复用，很像面向对象，封装继承多态
          封装：封装视图与数据和变化逻辑即数据驱动视图变化
          复用：通过props值不同进行传递
-         
 
 >
 >
 >
 >
-
-
 
 * jsx相关
+
 >特点总结
-```
+
+```txt
 1、js可以调用html元素，html元素可以通过{}读取外面的值，就像父子关系
 2、js的函数function 就像是一个xml，可以形成html标签,但注意此时返回的也是一个html标签
 3、xml标签属性引入其他xml标签时也要加入{}
@@ -324,6 +330,7 @@ function replaceNode(vnode,newVode) {
 5、jsx中用classNmae代替class
 6、jsx非react独有 已经独立（只是由react引入）
 ```
+
 >JSX与vdom的关系
 
     vdom由react初次推广，结合JSX
@@ -337,12 +344,14 @@ function replaceNode(vnode,newVode) {
     解析后的形式是React.createElement(),和h函数的参数非常像
     一种独立标准，可被其他项目使用
 * React状态
+
 >说一下setState的过程
 
     setState即re-render即类似触发patch(vnode,newVnode)的过程，
     （render相当于patch(container,vnode);React.createElement->render~~patch(container,vnode)
 
 >setState的异步
+
 ```js
 setState类setTimeout 会加入事件队列，
 addTitle(title) {
@@ -354,6 +363,7 @@ addTitle(title) {
     console.log(this.state.list); //['a','b']
 }
 ```
+
 >使用异步的原因：
 
     1、可能会一次执行多个setState
@@ -375,6 +385,7 @@ React.createElement相对于h增加了对自定义组件构造函数的考虑：
 ____
 
 ## 深入React心得
+
 回头好好总结下，不要让知识点乱七八糟的
 
 * react 生命周期
