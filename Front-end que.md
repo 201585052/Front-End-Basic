@@ -1,7 +1,6 @@
 # Web 前端开发面试题
 
-<font color=#0099ff size=5 face="黑体">前言：</font>
-
+__前言:__
 其实这几次面试都看得出来，有些问题是记忆的是小题，这些小题内容背下来就好，然后就是专题了，一些手写的代码一定要深刻理解随时都能要写出来，在平时不在考前。
 
 -----------
@@ -69,7 +68,7 @@ xss与rsxf
     1、本地对象（可通过new创建实例）：包含：Object、Array、Date、RegExp、Function、Boolean、Number、String等。
     2、内置对象（本身就是实例化对象）:包含：Global和Math
     3、宿主对象（包含宿主提供，自定义类对象）：所有的DOM对象和BOM对象都属于宿主对象
-``` 
+```
 
 * js基本规范
 
@@ -114,7 +113,7 @@ xss与rsxf
 * es6 如何编译成es5
 
 ```txt
-    1. Webpack编译期，为需要热更新的 entry 注入热更新代码(EventSource通信)
+  1. Webpack编译期，为需要热更新的 entry 注入热更新代码(EventSource通信)
   2. 页面首次打开后，服务端与客户端通过 EventSource 建立通信渠道，把下一次的 hash 返回前端
   3. 客户端获取到hash，这个hash将作为下一次请求服务端 hot-update.js 和 hot-update.json的hash
   4. 修改页面代码后，Webpack 监听到文件修改后，开始编译，编译完成后，发送 build 消息给客户端
