@@ -1,129 +1,8 @@
 # JS Code
 
-<font color=#0099ff size=5 face="黑体">前言：</font>
+__前言：__ Js的数据结构和算法描述其实挺重要的，虽然没有C++这种强类型语言那么有优势，但是有空看看吧，然后这里附上各种面试考手写的小题吧
 
-Js的数据结构和算法描述其实挺重要的，虽然没有C++这种强类型语言那么有优势，但是有空看看吧，然后这里附上各种面试考手写的小题吧
-
------------;
-
-## 剑指offer
-
-## 手写浅拷贝与深拷贝
-
-```js
-// 传说中的底层适用二进制的json转换。。。。。其实是不怎么合适的
-// NewData = JSON.parse(JSON.stringify(Olddata))
-// 这个就是会吧原来的数据转化为字符串，这是针对对象的所有引用关系就不复存在了，然后再转化回来就是
-// 一个全新的对象。不在出现新对象改动污染原始对象的问题了！
-//然后又看到了一个简化版的深拷贝比较灵巧
-var object1 = {
-    apple: 0,
-    banana: {
-        weight: 52,
-        price: 100
-    },
-    cherry: 97
-};
-var object2 = {
-    banana: {
-        price: 200
-    },
-    durian: 100
-};
-var object3 = {
-    name:"俊",
-    say:function(){
-        console.log("我是"+this.name);
-    }
-};
-function isArray(obj) {
-    return Object.prototype.toString.call(obj) == '[object Array]';
-}
-
-function isFunction(obj) {
-    return Object.prototype.toString.call(obj) == '[object Function]';
-}
-var clone = function(v) {
-    var o = isArray(v) ? [] : {};
-    for (var i in v) {
-      o[i] = typeof v[i] === "Object" ? clone(v[i]) : v[i];
-    }
-    return o;
-}
-console.log(clone(object1));
-console.log(clone(object3));
-console.log(JSON.parse(JSON.stringify(object1)));
-console.log(JSON.parse(JSON.stringify(object3)));
-
-
-
-
-
-//默认情况浅拷贝
-//object1--->{"apple":0,"banana":{"price":200},"cherry":97,"durian":100}
-//object2的banner覆盖了object1的banner，但是weight属性未被继承
-//$.extend(object1, object2);
-
-//深拷贝
-//object1--->{"apple":0,"banana":{"weight":52,"price":200},"cherry":97,"durian":100}
-//object2的banner覆盖了object1的banner，但是weight属性也被继承了呦
-// $.extend(true,object1, object2);
-
-// console.log('object1--->'+JSON.stringify(object1));
-
-//以下为jQuery的extend仿写版
-function extend(deep, target, obj) {
-    var first = arguments[0] || {};
-    var i = 0;
-    var src, copy, clone,name,copyIsArray;
-    if (typeof deep == "boolean") {
-        deep = deep;
-        i = 1;
-    } 
-    else
-        deep = false;
-    var canshu = [].slice.call(arguments, i);
-    var len = canshu.length;
-    if (!len)
-        return;
-    if (len == 1)
-        return target;
-    //canshu[0]=== target
-    if (typeof (target) !== "object" && !isFunction(target))
-        target = {};
-    for (var i = 1; i < len; i++) {
-        for (name in canshu[i]) {
-            //根据被扩展对象的键获得目标对象相应值，并赋值给src
-            src = target[name];
-            //得到扩展对象的值
-            copy = canshu[i][name];
-            if (target === copy) {
-                continue;
-            }
-            if (deep && copy && ((typeof copy === "object") || (copyIsArray = isArray(copy)))) {
-                if (copyIsArray) {
-                    //将copyIsArray重新设置为false，为下次遍历做准备
-                    copyIsArray = false;
-                    // 判断被扩展的对象中src是不是数组
-                    clone = src && isArray(src) ? src : [];
-                } else {
-                    // 判断被扩展的对象中src是不是纯对象
-                    clone = src && typeof (src) == "object" ? src : {};
-                }
-                target[name] = extend(deep, clone, copy);
-                // 如果不需要深度复制，则直接把copy（第i个被扩展对象中被遍历的那个键的值
-            } else if (copy !== undefined) {
-                target[name] = copy;
-            }
-        }
-    }
-    return target;
-}
-//console.log(extend(false,object1,object2));
-//console.log(extend(true, object1, object2));
-```
-
---------;
+-----------
 
 ## js小题狂练
 
@@ -406,3 +285,5 @@ function numSplit(str){
 }
 console.log(numSplit(str));
 ```
+
+## 剑指offer

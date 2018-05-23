@@ -1,19 +1,16 @@
 # Js专题
 
-<font color=#0099ff size=5 face="黑体">前言：</font>
+__前言:__
 
 这一部分就是针对各种Js重点概念列出的分析和专题
-
-------------
 
 ## es5
 
 ### js数据类型
 
-```txt
-    栈：原始数据类型undefined，Null，Boolean，Number(含NaN)，String(字符串不可修改))
-    堆：引用数据类型对象，数组，函数，Date
-```
+栈：原始数据类型undefined，Null，Boolean，Number(含NaN)，String(字符串不可修改))
+
+堆：引用数据类型对象，数组，函数，Date
 
 > typeof简单判定（无法区分null，数组和对象）
 
@@ -43,162 +40,107 @@
     gettype.call([])            //[object Array]
     gettype.call(function(){})  //[object Function]
 
-### 原型与原型链
+>注意两种判定方法的大小写。。。
 
-### 面向对象与继承
+------------
 
-```txt
-注：面向对象是一项非常有用的模式，js在初生时并没有考虑太多这方面的问题，后来无数js大牛创造出了这种模式，感
-觉js创建对象的方法也有很多，工厂模式，原型模式，构造函数模式等等。。。。各大教科书高程什么的讲得很全，
-个人筛选出了可能比较好的两种模式，毕竟没法记住所有的方法。。
-```
+### 变量提升
 
-* 创建对象
+>在定义或定义赋值之前引用，会只提变量，为undefined
 
->法一：组合使用构造函数模式和原型模式
+    console.log(foo); //undefined
+    var foo = 2;
 
-```js
-function Person(name,sex,height){
-    this.name = name;
-    this.sex = sex;
-    this.height = height;
-    this.friend = ["liao","liaoliao"];
-}
-Person.prototype = {
-    construtor :Person,
-    say : function(){
-        console.log("i'm "+this.name);
+>举个详细的例子
+
+    var tmp = new Date();
+    function f() {
+    console.log(tmp);
+        if (false) {
+            var tmp = 'hello world';
+        }
     }
-}
-// 个人的想法是，构造函数中定义好这个对象所含有的变量，而原型方面定义好这个对象的函数，从而实现了“属性”和
-// “功能”的分离，创建多个对象时也不会影响这里的friends数组，不是引用而是创建
-```
+    f(); // undefined
+    这段代码很经典，出现情况是定义赋值前引用，如果我们把后面的赋值去掉，根据前面的规则，结果还是undefined，如果只保留tmp = 'hello world'那么结果会正常输出
+>函数同样存在变量提升？
 
->法二：稳妥构造函数（不是寄生式构造，寄生式构造不能用instanceof确定对象类型，不建议使用寄生式构造)
-
-```js
-function Person(name,sex,height){
-    var o=new Object();
-    var name = name;
-    var sex = sex;
-    var height = height;
-    var friend = ["liao","liaoliao"];
-    o.say = function(){
-        console.log("i'm "+name);
+    function getValue() {
+        return 'c';
     }
-    return o;
-}
-
-// 这种构造方式最大的特点就是安全，封装性很好，不可以改变定义好对象的内部变量，但要注意三点（在某博客上
-// 看到的）
-
-// 注意： （以下3点）
-// 1. 在稳妥构造函数中变量不能挂到要返回的对象o中
-// 2. 在稳妥构造函数中的自定义函数操作元素时使用不要用this
-
-// 3. 在函数外部使用稳妥构造函数时不用new。
-```
-
->完整的带继承的测试代码
-
-```js
-function Person(name,sex,height){
-    this.name = name;
-    this.sex = sex;
-    this.height = height;
-    this.friend = ["liao","liaoliao"];
-}
-Person.prototype = {
-    construtor :Person,
-    say : function(){
-        console.log("i'm "+this.name);
+    function functions(flag) {
+        if (flag) {
+            function getValue() { return 'a'; }
+        } else {
+            function getValue() { console.log(1);return 'b'; }
+        }
+        return getValue();
     }
-}
-//寄生式构造
-// function Person(name,sex,height){
-//     var o = new Object();
-//     o.name = name;
-//     o.sex = sex;
-//     o.height = height;
-//     o.friend = ["liao","liaoliao"];
-//     o.say = function(){
-//         console.log("i'm "+this.name);
-//     }
-//     return o;
-// }
-//稳妥构造
-// function Person(name,sex,height){
-//     var o=new Object();
-//     var name = name;
-//     var sex = sex;
-//     var height = height;
-//     var friend = ["liao","liaoliao"];
-//     o.say = function(){
-//         console.log("i'm "+name);
-//     }
-//     return o;
-// }
-// var person1 = Person("liao","boy",150);
-// person1.say();
-// console.log(person1.friend);
-// person1.name="gg";
-// person1.say();
-function Superman(){
-    var superman = new Person();
-    superman.name = "wyp";
-    superman.fly = function(){
-        superman.say.call(this);
-        console.log(this.name+" is flying");
-    };
-    return superman;
-}
-var person1=new Person("yao","公",150);
-var person2=new Person("ji","母",160);
-person1.say();
-console.log(person1.friend);
-person1.friend.push("bulaili");
-console.log(person1.friend);
-console.log(person2.friend);
-person2.say();
-person1.name="2333";
-person1.say();
-var wyp=new Superman();
-wyp.fly();
-wyp.name = "daer";
-wyp.fly();
-// 上述用的是寄生式继承，个人觉得传统的原型链+组合函数-》组合继承，比较散化封装性不太好，写多了容
-// 易逻辑混乱
+    console.log(functions(true));
+    这里本以为这一段代码最后总是会返回b，牛客上的题也是这么设计的，但后来的node环境可能做了些修正，这里其实会返回a的。。。,而且没输出1说明第二个函数解析都没解析，所以个人对函数的理解是
+    ->1、函数解析本身并不存在“变量提升”
+    紧接着第二个测试
+    function doSth(func,a,b){
+        function func(a,b) {
+            return a-b;
+        }
+        return func(a,b);
+    }
+    function func(a,b) {
+        return a+b;
+    }
+    console.log(doSth(func,1,2));
 
-// 然后看了看寄生式继承与寄生式组合继承，两者非常像：思路都是创建对象->增强对象->返回对象，于是没有就着高
-// 程上所写的把构造函数借用和原型链操作分开，而是做了个封装觉得这样的风格最好吧～，虽然只是个寄生式
-// 继承orz
-```
+    ->2、函数的调用沿作用域链查找
 
-* 感觉必须要知道的组合继承
+    紧接着看了网上大牛的3个测试
 
-```js
-function Person(name,height){
-    this.name = name;
-    this.height = height;
-    this.friends=["liao1","liao2"];
-}
-Person.prototype.say = function () {
-    console.log("I'm "+this.name);
-}
-function child(name,height,sex){
-    Person.apply(this);
-    this.name=name;
-    this.height = height;
-    this.sex = sex;
-}
-child.prototype = new Person();
-var hh=new child("liao",150,"boy");
-hh.say();
-console.log(hh.friends);
+    (function(){
+    function a(){};
+        var a;
+        console.log(typeof a); //function
+    })();
+    (function(){
+        console.log(typeof a);//function
+        function a(){};
+        var a = 1;
+    })();
+    (function(){
+        function a(){};
+        var a = 1;
+        console.log(typeof(a)); //number
+    })();
 
-```
+    ->3、js先解析再执行(会被覆盖)
+>词法分析一个
 
-#### 对闭包的理解及常见应用场景
+    function a(){
+        var b = 'a';
+        function b(){
+            console.log('b')
+        }
+        console.log(b)
+    }
+    a()
+    //解析时
+    function a(){
+        var b = 'a';
+        b = function b(){console.log('b')};
+        console.log(b);
+    }
+    //执行时
+    function a(){
+        b = function b(){console.log('b')};
+        var b = 'a';
+        console.log(b);
+    }
+    a();
+>总结：
+
+    ES5只有全局作用域和函数作用域，没有块级作用域，因此es6新增了let，来引入块级作用域
+
+------------
+
+### 对闭包的理解及常见应用场景
 
 > 闭包的三个特点
 
@@ -317,103 +259,73 @@ console.log(dosomething(addd,1,2));
 })(jQuery);
 ```
 
-#### 作用域链的理解
+### js单线程
 
-#### 变量提升
+#### 异步与回调
 
->在定义或定义赋值之前引用，会只提变量，为undefined
+>异步防止阻塞 [参考](https://www.cnblogs.com/dong-xu/p/7000163.html)
 
-    console.log(foo); //undefined
-    var foo = 2;
-
->举个详细的例子
-
-    var tmp = new Date();
-    function f() {
-    console.log(tmp);
-        if (false) {
-            var tmp = 'hello world';
+```js
+//举一个同步遍历打印数组和异步回调打印数组的例子～
+var arr = new Array(200);
+//arr.fill(1);
+for(var i=0;i<arr.length;i++)
+    arr[i]=i;
+function ascyprint(arr,handle){
+    var t = setInterval(function(){
+        if(!arr.length){
+            clearInterval(t);
+        }else{
+            handle(arr.shift());
         }
-    }
-    f(); // undefined
-    这段代码很经典，出现情况是定义赋值前引用，如果我们把后面的赋值去掉，根据前面的规则，结果还是undefined，如果只保留tmp = 'hello world'那么结果会正常输出
->函数同样存在变量提升？
+    },0);
+}
+ascyprint(arr,function(value){
+    console.log(value);
+});
+arr.forEach(function(index,value,arr){
+    console.log(value);
+});
+```
 
-    function getValue() {
-        return 'c';
-    }
-    function functions(flag) {
-        if (flag) {
-            function getValue() { return 'a'; }
-        } else {
-            function getValue() { console.log(1);return 'b'; }
+>页面上回调使用实例
+
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p id="test">大家好，我是布莱利liaoliao</p>
+    <button type="submit">12px</button>
+    <button type="submit">24px</button>
+    <button type="submit">48px</button>
+    <script>
+        var pp = document.getElementById('test')
+        function changesize(x){
+            return function(){
+                pp.style.fontSize = x+"px";
+            };
         }
-        return getValue();
-    }
-    console.log(functions(true));
-    这里本以为这一段代码最后总是会返回b，牛客上的题也是这么设计的，但后来的node环境可能做了些修正，这里其实会返回a的。。。,而且没输出1说明第二个函数解析都没解析，所以个人对函数的理解是
-    ->1、函数解析本身并不存在“变量提升”
-    紧接着第二个测试
-    function doSth(func,a,b){
-        function func(a,b) {
-            return a-b;
-        }
-        return func(a,b);
-    }
-    function func(a,b) {
-        return a+b;
-    }
-    console.log(doSth(func,1,2));
+        var size1 = changesize(12);
+        var size2 = changesize(24);
+        var size3 = changesize(48);
+        var btn=document.getElementsByTagName('button');
+        if(btn[0].type == 'submit')
+            console.log(1);
+        btn[0].onclick = size1;
+        btn[1].onclick = size2;
+        btn[2].onclick = size3;
+        </script>
+</body>
+</html>
+```
 
-    ->2、函数的调用沿作用域链查找
-
-    紧接着看了网上大牛的3个测试
-
-    (function(){
-    function a(){};
-        var a;
-        console.log(typeof a); //function
-    })();
-    (function(){
-        console.log(typeof a);//function
-        function a(){};
-        var a = 1;
-    })();
-    (function(){
-        function a(){};
-        var a = 1;
-        console.log(typeof(a)); //number
-    })();
-
-    ->3、js先解析再执行(会被覆盖)
->词法分析一个
-
-    function a(){
-        var b = 'a';
-        function b(){
-            console.log('b')
-        }
-        console.log(b)
-    }
-    a()
-    //解析时
-    function a(){
-        var b = 'a';
-        b = function b(){console.log('b')};
-        console.log(b);
-    }
-    //执行时
-    function a(){
-        b = function b(){console.log('b')};
-        var b = 'a';
-        console.log(b);
-    }
-    a();
->总结：
-
-    ES5只有全局作用域和函数作用域，没有块级作用域，因此es6新增了let，来引入块级作用域
-
-### 事件队列
+#### 事件循环与任务队列
 
 >我们用常见的写一个定时器来分析这个问题
 
@@ -482,70 +394,346 @@ console.log(3);
 // then也是在setTimeout之前的
 ```
 
-### 异步与回调
->异步防止阻塞 [参考](https://www.cnblogs.com/dong-xu/p/7000163.html)
+------------
+
+### 原型与原型链
+
+#### 作用域链的理解
+
+------------
+
+### 面向对象与继承
+
+注：面向对象是一项非常有用的模式，js在初生时并没有考虑太多这方面的问题，后来无数js大牛创造出了这种模式，感
+觉js创建对象的方法也有很多，工厂模式，原型模式，构造函数模式等等。。。。各大教科书高程什么的讲得很全，
+个人筛选出了可能比较好的两种模式，毕竟没法记住所有的方法。。
+
+#### 创建对象
+
+>法一：组合使用构造函数模式和原型模式
 
 ```js
-//举一个同步遍历打印数组和异步回调打印数组的例子～
-var arr = new Array(200);
-//arr.fill(1);
-for(var i=0;i<arr.length;i++)
-    arr[i]=i;
-function ascyprint(arr,handle){
-    var t = setInterval(function(){
-        if(!arr.length){
-            clearInterval(t);
-        }else{
-            handle(arr.shift());
-        }
-    },0);
+function Person(name,sex,height){
+    this.name = name;
+    this.sex = sex;
+    this.height = height;
+    this.friend = ["liao","liaoliao"];
 }
-ascyprint(arr,function(value){
-    console.log(value);
-});
-arr.forEach(function(index,value,arr){
-    console.log(value);
-});
+Person.prototype = {
+    construtor :Person,
+    say : function(){
+        console.log("i'm "+this.name);
+    }
+}
+// 个人的想法是，构造函数中定义好这个对象所含有的变量，而原型方面定义好这个对象的函数，从而实现了“属性”和
+// “功能”的分离，创建多个对象时也不会影响这里的friends数组，不是引用而是创建
 ```
 
->页面上回调使用实例
+>法二：稳妥构造函数（不是寄生式构造，寄生式构造不能用instanceof确定对象类型，不建议使用寄生式构造)
 
-```HTML
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <p id="test">大家好，我是布莱利liaoliao</p>
-    <button type="submit">12px</button>
-    <button type="submit">24px</button>
-    <button type="submit">48px</button>
-    <script>
-        var pp = document.getElementById('test')
-        function changesize(x){
-            return function(){
-                pp.style.fontSize = x+"px";
-            };
+```js
+function Person(name,sex,height){
+    var o=new Object();
+    var name = name;
+    var sex = sex;
+    var height = height;
+    var friend = ["liao","liaoliao"];
+    o.say = function(){
+        console.log("i'm "+name);
+    }
+    return o;
+}
+
+// 这种构造方式最大的特点就是安全，封装性很好，不可以改变定义好对象的内部变量，但要注意三点（在某博客上
+// 看到的）
+
+// 注意： （以下3点）
+// 1. 在稳妥构造函数中变量不能挂到要返回的对象o中
+// 2. 在稳妥构造函数中的自定义函数操作元素时使用不要用this
+
+// 3. 在函数外部使用稳妥构造函数时不用new。
+```
+
+>完整的带继承的测试代码
+
+```js
+function Person(name,sex,height){
+    this.name = name;
+    this.sex = sex;
+    this.height = height;
+    this.friend = ["liao","liaoliao"];
+}
+Person.prototype = {
+    construtor :Person,
+    say : function(){
+        console.log("i'm "+this.name);
+    }
+}
+//寄生式构造
+// function Person(name,sex,height){
+//     var o = new Object();
+//     o.name = name;
+//     o.sex = sex;
+//     o.height = height;
+//     o.friend = ["liao","liaoliao"];
+//     o.say = function(){
+//         console.log("i'm "+this.name);
+//     }
+//     return o;
+// }
+//稳妥构造
+// function Person(name,sex,height){
+//     var o=new Object();
+//     var name = name;
+//     var sex = sex;
+//     var height = height;
+//     var friend = ["liao","liaoliao"];
+//     o.say = function(){
+//         console.log("i'm "+name);
+//     }
+//     return o;
+// }
+// var person1 = Person("liao","boy",150);
+// person1.say();
+// console.log(person1.friend);
+// person1.name="gg";
+// person1.say();
+function Superman(){
+    var superman = new Person();
+    superman.name = "wyp";
+    superman.fly = function(){
+        superman.say.call(this);
+        console.log(this.name+" is flying");
+    };
+    return superman;
+}
+var person1=new Person("yao","公",150);
+var person2=new Person("ji","母",160);
+person1.say(); //i'm yao
+console.log(person1.friend); //['liao','liaoliao']
+person1.friend.push("bulaili"); 
+console.log(person1.friend); //['liao','liaoliao','bulaili']
+console.log(person2.friend); //['liao','liaoliao']
+person2.say(); //i'm ji
+person1.name="2333";
+person1.say(); //i'm 2333
+var wyp=new Superman();
+wyp.fly(); //i'm wyp \n wyp is flying
+wyp.name = "daer";
+wyp.fly(); //i'm daer \n daer is flying
+// 上述用的是寄生式继承，个人觉得传统的原型链+组合函数-》组合继承，比较散化封装性不太好，写多了容
+// 易逻辑混乱
+
+// 然后看了看寄生式继承与寄生式组合继承，两者非常像：思路都是创建对象->增强对象->返回对象，于是没有就着高
+// 程上所写的把构造函数借用和原型链操作分开，而是做了个封装觉得这样的风格最好吧～，虽然只是个寄生式
+// 继承orz
+```
+
+#### 继承
+
+> 感觉必须要知道的组合继承
+
+```js
+function Person(name,height){
+    this.name = name;
+    this.height = height;
+    this.friends=["liao1","liao2"];
+}
+Person.prototype.say = function () {
+    console.log("I'm "+this.name);
+}
+function child(name,height,sex){
+    Person.apply(this);
+    this.name=name;
+    this.height = height;
+    this.sex = sex;
+}
+child.prototype = new Person();
+var hh=new child("liao",150,"boy");
+hh.say();
+console.log(hh.friends);
+
+```
+
+#### 对象的深浅拷贝
+
+>前提
+
+在讨论深浅拷贝问题，先思考一下这个问题的实际出现场景，我们这里用到了最简单的变量，函数，和没有函数的字面量对象三种情况：
+
+```js
+var a = 3;
+var b = a;
+b = 4;
+console.log(b);
+console.log(a);
+var c = function(){
+    console.log("hey jude");
+}
+var d = c;
+d = function() {
+    console.log("Brelly liaoliao");
+}
+c();
+d();
+var obj1 = {
+    name:"liaoliao",
+    height:150
+};
+var obj2 = obj1;
+obj2.name = "俊";
+console.log(obj1.name);
+console.log(obj2.name);//这里我们的obj2的改动影响的obj1的改动
+```
+
+所以得出出现深浅拷贝问题的情形在于对象，对象赋值或者说对象引用后改动的影响
+
+>浅拷贝概念
+
+    像前提中出现的我们定义一个对象，并直接赋值给一个变量的时候，我们改变这个变量也会改变愿对象，这是因为变量其实没有重新开辟一片空间去保存一个对象的副本，而只是一个单纯的指向原对象的一个引用，所以我们改变变量的时候当然也会改变原有的对象
+>深拷贝概念
+
+    这样看来深拷贝就好理解了，重新开辟一个空间，用来做原对象的副本，改变这个副本并不会影响原来的对象
+
+>深拷贝方法
+
+先给出这样的场景：
+
+```js
+var object1 = {
+    apple: 0,
+    banana: {
+        weight: 52,
+        price: 100
+    },
+    cherry: 97
+};
+var object2 = {
+    banana: {
+        price: 200
+    },
+    durian: 100
+};
+var object3 = {
+    name:"俊",
+    say:function(){
+        console.log("我是"+this.name);
+    }
+};
+```
+
+__方法1:__ json转换（因为底层是二进制）
+
+这个就是会吧原来的数据转化为字符串，这是针对对象的所有引用关系就不复存在了，然后再转化回来就是
+    一个全新的对象。不在出现新对象改动污染原始对象的问题了.
+
+```js
+var b = JSON.parse(JSON.stringify(object1));
+b.apple = 2;
+console.log(object1.apple); //0
+console.log(b.apple); //2
+```
+
+缺点：对象里不能含有函数，也就是说只适于json支持的数据格式
+
+```js
+var b = JSON.parse(JSON.stringify(object3));
+b.name = "liao";
+object3.say();
+b.say();
+//这样的拷贝就成功。。。报了错， b.say() is not a function
+```
+
+__方法二:__ 手写个clone函数吧
+
+```js
+function isArray(obj) {
+    return Object.prototype.toString.call(obj) == '[object Array]';
+}
+var clone = function(v) {
+    var o = isArray(v) ? [] : {};
+    for(var i in v) {
+        o[i] = typeof(v[i]) === 'object' ? clone(v[i]) : v[i];
+    }
+    return o;
+};
+var a = object3;
+var b = clone(object3);
+b.name = "liao";
+a.say();
+b.say();
+```
+
+__探索:__ jQuery源码中的extend
+
+感觉好难，自己模仿着写了一个不知道对不对
+
+```js
+
+//默认情况浅拷贝
+//object1--->{"apple":0,"banana":{"price":200},"cherry":97,"durian":100}
+//object2的banner覆盖了object1的banner，但是weight属性未被继承
+//$.extend(object1, object2);
+
+//深拷贝
+//object1--->{"apple":0,"banana":{"weight":52,"price":200},"cherry":97,"durian":100}
+//object2的banner覆盖了object1的banner，但是weight属性也被继承了呦
+// $.extend(true,object1, object2);
+
+// console.log('object1--->'+JSON.stringify(object1));
+
+//以下为jQuery的extend仿写版
+function extend(deep, target, obj) {
+    var first = arguments[0] || {};
+    var i = 0;
+    var src, copy, clone,name,copyIsArray;
+    if (typeof deep == "boolean") {
+        deep = deep;
+        i = 1;
+    } 
+    else
+        deep = false;
+    var canshu = [].slice.call(arguments, i);
+    var len = canshu.length;
+    if (!len)
+        return;
+    if (len == 1)
+        return target;
+    //canshu[0]=== target
+    if (typeof (target) !== "object" && !isFunction(target))
+        target = {};
+    for (var i = 1; i < len; i++) {
+        for (name in canshu[i]) {
+            //根据被扩展对象的键获得目标对象相应值，并赋值给src
+            src = target[name];
+            //得到扩展对象的值
+            copy = canshu[i][name];
+            if (target === copy) {
+                continue;
+            }
+            if (deep && copy && ((typeof copy === "object") || (copyIsArray = isArray(copy)))) {
+                if (copyIsArray) {
+                    //将copyIsArray重新设置为false，为下次遍历做准备
+                    copyIsArray = false;
+                    // 判断被扩展的对象中src是不是数组
+                    clone = src && isArray(src) ? src : [];
+                } else {
+                    // 判断被扩展的对象中src是不是纯对象
+                    clone = src && typeof (src) == "object" ? src : {};
+                }
+                target[name] = extend(deep, clone, copy);
+                // 如果不需要深度复制，则直接把copy（第i个被扩展对象中被遍历的那个键的值
+            } else if (copy !== undefined) {
+                target[name] = copy;
+            }
         }
-        var size1 = changesize(12);
-        var size2 = changesize(24);
-        var size3 = changesize(48);
-        var btn=document.getElementsByTagName('button');
-        if(btn[0].type == 'submit')
-            console.log(1);
-        btn[0].onclick = size1;
-        btn[1].onclick = size2;
-        btn[2].onclick = size3;
-        </script>
-</body>
-</html>
+    }
+    return target;
+}
+//console.log(extend(false,object1,object2));
+//console.log(extend(true, object1, object2));
 ```
 
-### 不同浏览器及浏览器中的事件
 
 ### 事件委托
 
