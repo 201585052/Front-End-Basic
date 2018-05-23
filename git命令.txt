@@ -35,3 +35,4 @@
 4、git commit -m "sth"
 5、git push 部署到服务器上
 6、不同机器操作时要从远程仓库pull一下拉入最新修改如 git pull origin master
+7、markdown去掉小型乱码的方法，直接在github页面上改吧，记得pull

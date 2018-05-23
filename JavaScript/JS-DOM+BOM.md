@@ -2,14 +2,16 @@
 
 __前言:__
 
-本来这只是一篇js DOM编程艺术的读书笔记，但是看到了一种分类方法是javascript由ECMAScript、DOM、BOM组成，觉得很合理，重视一下DOM和BOM问题
+本来这只是一篇js DOM编程艺术的读书笔记，但是看到了一种分类方法是javascript由ECMAScript、DOM、BOM组成，觉得很合理，重视一下DOM和BOM问题，尤其是事件那一部分是通过DOM这个API来实现的
 
 * BOM与DOM
 
 ```txt
-BOM：浏览器对象模型，Browser Object Model。window.open,window.blur等；
-DOM：把文档当成一棵树模型，将HTML节点转成js的变量；
+BOM：浏览器对象模型，Browser Object Model。window.open,window.blur等；BOM会因浏览器的内部实现不同而不同
+DOM：把文档当成一棵树模型，将HTML节点转成js的变量；W3C的标准所有浏览器公共遵守的标准
 ```
+
+[参考](https://blog.csdn.net/anythings/article/details/51240133)
 
 * DOM 组成
 
