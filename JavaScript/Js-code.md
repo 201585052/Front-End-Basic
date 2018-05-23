@@ -216,6 +216,7 @@ getJson("www.liao.com").then((val)=>console.log(val));
 > 手写实现跨域
 
 ## 正则表达式
+
 >用户名正则，4到16位（字母，数字，下划线，减号）
 
     var uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
@@ -287,3 +288,9 @@ console.log(numSplit(str));
 ```
 
 ## 剑指offer
+
+-----------
+
+## 待看书籍
+
+* 数据结构与算法JavaScript描述

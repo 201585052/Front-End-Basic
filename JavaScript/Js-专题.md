@@ -511,7 +511,7 @@ var person1=new Person("yao","公",150);
 var person2=new Person("ji","母",160);
 person1.say(); //i'm yao
 console.log(person1.friend); //['liao','liaoliao']
-person1.friend.push("bulaili"); 
+person1.friend.push("bulaili");
 console.log(person1.friend); //['liao','liaoliao','bulaili']
 console.log(person2.friend); //['liao','liaoliao']
 person2.say(); //i'm ji
@@ -690,7 +690,7 @@ function extend(deep, target, obj) {
     if (typeof deep == "boolean") {
         deep = deep;
         i = 1;
-    } 
+    }
     else
         deep = false;
     var canshu = [].slice.call(arguments, i);
@@ -732,114 +732,6 @@ function extend(deep, target, obj) {
 }
 //console.log(extend(false,object1,object2));
 //console.log(extend(true, object1, object2));
-```
-
-
-### 事件委托
-
->将一个父元素下的许多子元素的点击事件附到父元素上
-
-```HTML
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>test</title>
-    <meta charset="utf-8" />
-    <style>
-    </style>
-</head>
-
-<body>
-    <ul id="list">
-
-    </ul>
-    <button id="but">点击添加</button>
-    <script>
-        var btn=document.getElementById("but");
-        var ul=document.getElementById("list");
-        btn.addEventListener('click',function(){
-            var li=document.createElement('li');
-            li.innerHTML="liaoliao";
-            ul.appendChild(li);
-        })
-        ul.addEventListener('click',function(e){
-            var lis=ul.querySelectorAll('li');
-            for(var i=0;i<lis.length;i++)
-                lis[i].index=i;
-            var tar=e.target;
-            if(tar.nodeName.toLowerCase()=='li')
-                alert("i'm liao"+tar.index);
-        });
-    </script>
-</body>
-
-</html>
-```
-
-### 函数节流（防抖）
-
->有些像resize等函数或者input输入判断这种可能导致浏览器少时间多数计算，为了减少计算时间成本，隔一段时间计算一次，以下是滚动示例
-
-```js
-var canscroll = true;
-document.getElementById('ww').onscroll = function(){
-    if(!canscroll)
-        return;
-    canscroll=false;
-    setTimeout(function(){
-        canscroll=true;
-    },1000);
-}
-```
-
-### 原型与对象关联
-
-* 你不知道的JS中提到的对象关联风格可以大大减少原型风格原型链上的复杂性
-
->原型风格
-
-```js
-function Foo(who){
-    this.me=who;
-}
-Foo.prototype.identyyify = function() {
-    return "i'm "+this.me;
-}
-function Bar(who){
-    Foo.call(this,who);
-}
-Bar.prototype=Object.create(Foo.prototype);
-Bar.prototype.speak = function(){
-    console.log("hello, "+this.identify()+".");
-};
-var b1=new Bar("b1");
-var b2=new Bar("b2");
-b1.speak();
-b2.speak();
-```
-
->对象关联风格
-
-```js
-Foo={
-    init: function(who){
-        this.me = who;
-    },
-    identify: function(){
-        return "I am "+this.me;
-    }
-};
-Bar = Object.create(Foo);
-Bar.speak = function(){
-    console.log("hello, "+this.identify()+".");
-};
-var b1=Object.create(Bar);
-b1.init("b1");
-var b2=Object.create(Bar);
-b2.init("b2");
-b1.speak();
-b2.speak();
 ```
 
 ### ajax原生与jquery创建过程，如何缓存优化
@@ -899,16 +791,73 @@ foo(10,20)
 
 #### 第六变量symbol
 
-#### 代码风格
+------------
 
-* es6 风格（阮一峰 es6入门）
+## 代码风格与规范
 
-* 原型关联与对象风格
+### 代码风格
 
-* jQuery链式风格
+#### es6 风格（阮一峰 es6入门）
 
-* 缩紧空白，简化的，带注释的书写风格
+#### 对象关联风格代替原型链风格 （选自《你不知道的JS》)
 
-* html与js逻辑分离的风格
+>原型风格
 
-* 能用css完成的动画效果不用js完成
+```js
+function Foo(who){
+    this.me=who;
+}
+Foo.prototype.identyyify = function() {
+    return "i'm "+this.me;
+}
+function Bar(who){
+    Foo.call(this,who);
+}
+Bar.prototype=Object.create(Foo.prototype);
+Bar.prototype.speak = function(){
+    console.log("hello, "+this.identify()+".");
+};
+var b1=new Bar("b1");
+var b2=new Bar("b2");
+b1.speak();
+b2.speak();
+```
+
+>对象关联风格
+
+```js
+Foo={
+    init: function(who){
+        this.me = who;
+    },
+    identify: function(){
+        return "I am "+this.me;
+    }
+};
+Bar = Object.create(Foo);
+Bar.speak = function(){
+    console.log("hello, "+this.identify()+".");
+};
+var b1=Object.create(Bar);
+b1.init("b1");
+var b2=Object.create(Bar);
+b2.init("b2");
+b1.speak();
+b2.speak();
+```
+
+#### jQuery链式风格
+
+#### html与js逻辑分离的风格
+
+#### 能用css完成的动画效果不用js完成
+
+### 代码规范
+
+以前真没讲究过代码规范这回事，注释一般会写，缩进什么的都是用的beautiful插件。。。每个公司团队都有自己的代码规范吧hhh，从现在起也培养下自己的代码规范？
+
+------------
+
+## 购物车
+
+* JavaScript语言精粹

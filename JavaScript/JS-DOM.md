@@ -1,8 +1,8 @@
-# Js-DOM艺术笔记
+# Js-DOM+BOM
 
 __前言:__
 
-我想我们纠结DOM的操作问题，一个比较重要的点就是DOM在性能上的代价还是很昂贵的吧
+本来这只是一篇js DOM编程艺术的读书笔记，但是看到了一种分类方法是javascript由ECMAScript、DOM、BOM组成，觉得很合理，重视一下DOM和BOM问题
 
 * BOM与DOM
 
@@ -71,7 +71,7 @@ var source = whichpic.href;
 1、元素节点
 2、属性节点
 3、文本节点（用nodeValue改变文本节点的值）
-``` 
+```
 
 * DOM与CSS结构：
 
